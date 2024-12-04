@@ -49,6 +49,24 @@ app.put('/:sigla', (req, res) =>{
     }
     res.status(200).send(carroSelecionado);
 });
+
+app.delete('/:sigla', (req, res) => {
+    const siglaInformada = req.params.sigla.toUpperCase();
+    const IndicecarroSelecionado = carros2024.findIndex(
+        (c) => c.sigla === siglaInformada
+    );
+    if (IndicecarroSelecionado === -1) {
+        // se o carro nao for encontrado/indice retorna -1
+        res.status(404)
+        .send(
+            'não existe um carro com a sigla informada!' // mensagem de erro
+        );
+        return;
+    };
+    const carroRemovido = carros2024.splice(IndicecarroSelecionado, 1); //remove o carro
+    res.status(200).send(carroRemovido); //retorna o carro removido com ok
+
+    });
 // Inicia o servidor na porta 3000:
 app.listen(3000,() => console.log("Servidor Rodando com Sucesso"));
 
